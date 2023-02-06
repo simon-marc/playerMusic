@@ -182,6 +182,23 @@ class Player:
         self.master.bind("<Left>", lambda x:prev())
         self.master.bind("<Right>", lambda x:next())
 
+        def exit():
+            msgbox = askquestion(
+                'Exit ?'
+            )
+            if msgbox == "yes":
+                master.quit()
+                master.after(100, exit)
+            else:
+                showinfo('Get back !')
+            return
+
+
+
+
+
+
+
 
     ##################################################################################################################"
 
@@ -193,6 +210,7 @@ class Player:
 
         self.menu = Menu(self.img_label, font="helvetica, 7")
         master.config(menu=self.menu)
+        self.menu.add_command(label="EXIT",command=exit)
 
         self.separator = ttk.Separator(self.img_label, orient="horizontal")
         self.separator.place(relx=0, rely=0.87, relwidth=1, relheight=1)
@@ -211,6 +229,7 @@ class Player:
 
         self.pause = Button(self.master, text=PAUSE, width=5, bd=5, bg="black", fg="white", font="helvetica, 8", command=pause_unpause)
         self.pause.place(x=70, y=415)
+
 
         self.repeat = Button(self.master, text="Rep", width=5, bd=5, bg="black", fg="white", font="helvetica, 8", command=repeat)
         self.repeat.place(x=400, y=415)
