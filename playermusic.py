@@ -2,24 +2,26 @@ from tkinter import *
 import pygame
 import os
 import threading
+import random
 import time
 from mutagen.mp3 import MP3
 from tkinter.filedialog import askdirectory
-from tkinter.messagebox import showerror,askquestion,showinfo
+from tkinter.messagebox import showerror
 from tkinter import ttk
-import PIL
-from PIL import Image
-from PIL import ImageTk
+from PIL import Image, ImageTk
 
 
+                        #L'utilisation de la librarie "threading" a pour but de fluidifier l'exécution de certaines fonctionnalités du player
 
+
+#Création de la classe
 class Player:
     def __init__(self,master):
         self.master = master
         pygame.init()
         pygame.mixer.init()
 
-        #Liste des sons
+        #Création du container pour lister les sons
         self.scroll = Scrollbar(master)
         self.play_list = Listbox(master, font="Sasarif 12 bold", bd=5, bg="white", width=37, height=19, selectbackground="#c9c8c5")
         self.play_list.place(x=600 , y=77)
@@ -37,8 +39,7 @@ class Player:
         self.img_label["compound"] = LEFT
         self.img_label["image"] = self.img
 
-        #Symboles du MusicPlayer
-
+        #Symboles et variables du player
         PLAY = "►"
         PAUSE = "║║"
         PREV = "<<"
@@ -50,11 +51,7 @@ class Player:
         vol_mute = 0.0
         vol_unmute = 1
 
-
-
-
-     ####################################################################################################################"
-
+        #Fonction pour ajouter une track
         def add_song():
             try:
                 directory = askdirectory()
@@ -80,6 +77,7 @@ class Player:
             threads = threading.Thread(target=add_song())
             threads.start()
 
+        #Fonction pour initialiser le minuteur du lecteur
         def get_time():
             current_time = pygame.mixer.music.get_pos() / 1000
             formated_time = time.strftime("%H:%M:%S", time.gmtime(current_time))
@@ -93,6 +91,7 @@ class Player:
             self.progress_bar["value"] = int(current_time)
             master.after(100, get_time)
 
+        #Fonction pour lancer la track
         def play_music():
             try:
                 track = self.play_list.get(ACTIVE)
@@ -103,6 +102,12 @@ class Player:
             except:
                 print('')
 
+        def play_thread():
+            threads= threading.Thread(target=play_music)
+            threads.start()
+        master.bind("<space>", lambda x:play_thread())
+
+        #Fonction pour répéter la track
         def repeat_song():
             try:
                 index = 0
@@ -123,6 +128,7 @@ class Player:
             threads = threading.Thread(target=repeat_song)
             threads.start()
 
+        #Fonction pour pouvoir mettre en pause la track (switch visible entre pause et unpause)
         def pause_unpause():
             if self.pause["text"] == PAUSE:
                 pygame.mixer.music.pause()
@@ -131,21 +137,17 @@ class Player:
                 pygame.mixer.music.unpause()
                 self.pause["text"] = PAUSE
 
-
-        def play_thread():
-            threads= threading.Thread(target=play_music)
-            threads.start()
-
-        master.bind("<space>", lambda x:play_thread())
-
+        #Fonction destinée à l'arrêt complet du lecteur
         def stop():
             pygame.mixer.music.stop()
 
+        #Fonction destinée à régler le volume
         def volume(x):
             pygame.mixer.music.set_volume(self.volume_slider.get())
 
+        #Fonction pour passer à la track suivante
         def next_song():
-            next_one =self.play_list.curselection()
+            next_one = self.play_list.curselection()
             next_one = next_one[0]+1
             song = self.play_list.get(next_one)
             pygame.mixer.music.load(song)
@@ -161,7 +163,7 @@ class Player:
             threads= threading.Thread(target=next_song)
             threads.start()
 
-
+        #Fonction pour retourner à la track précédente
         def prev_song():
             next_one =self.play_list.curselection()
             next_one = next_one[0]-1
@@ -179,38 +181,22 @@ class Player:
             threads= threading.Thread(target=prev_song)
             threads.start()
 
+        ################################################################################################################################################
+
+                                                                       # GUI #
+
+        ################################################################################################################################################
+
         self.master.bind("<Left>", lambda x:prev())
         self.master.bind("<Right>", lambda x:next())
 
-        def exit():
-            msgbox = askquestion(
-                'Exit ?'
-            )
-            if msgbox == "yes":
-                master.quit()
-                master.after(100, exit)
-            else:
-                showinfo('Get back !')
-            return
-
-
-
-
-
-
-
-
-    ##################################################################################################################"
-
-
         self.var = StringVar()
-        self.var.set("...............................................................................................................")
-        self.song_title = Label(master, font="Helvetica 12 bold", bg="black", fg="white", width=60, textvariable=self.var)
+        self.var.set("########################################################################################################################""")
+        self.song_title = Label(master, font="Helvetica 12 bold", bg="black", fg="white", width=67, textvariable=self.var)
         self.song_title.place(x=1, y=0)
 
         self.menu = Menu(self.img_label, font="helvetica, 7")
         master.config(menu=self.menu)
-        self.menu.add_command(label="EXIT",command=exit)
 
         self.separator = ttk.Separator(self.img_label, orient="horizontal")
         self.separator.place(relx=0, rely=0.87, relwidth=1, relheight=1)
@@ -230,9 +216,8 @@ class Player:
         self.pause = Button(self.master, text=PAUSE, width=5, bd=5, bg="black", fg="white", font="helvetica, 8", command=pause_unpause)
         self.pause.place(x=70, y=415)
 
-
-        self.repeat = Button(self.master, text="Rep", width=5, bd=5, bg="black", fg="white", font="helvetica, 8", command=repeat)
-        self.repeat.place(x=400, y=415)
+        self.repeat_button = Button(self.master, text="Rep", width=5, bd=5, bg="black", fg="white", font="helvetica, 8", command=repeat)
+        self.repeat_button.place(x=400, y=415)
 
         self.load_music = Button(self.master, text="Click here to load your track", width=47, bd=5, bg="black", fg="white", font="helvetica, 8", command=add_song_playlist)
         self.load_music.place(x=602, y=45)
@@ -249,22 +234,7 @@ class Player:
         self.label_time.place(x=455, y=392)
 
         self.label_playlist = Label(master, text="Your Playlist",width=47, height=2, bd=5, font="helvetica 11 bold", bg="white", fg="black")
-        self.label_playlist.place(x=602, y=4)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        self.label_playlist.place(x=602, y=1)
 
 
 def main():
