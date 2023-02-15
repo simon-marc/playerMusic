@@ -5,15 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="08af9ec6-d6b6-4b89-a75a-153e6646eeee" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/music/Dead Trollz.mp3" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/music/Luh Tyler - I Got A Dollar.mp3" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/music/Quando Rondo - Soul Reaper.mp3" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/music/Testify.mp3" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/music/through the late night.mp3" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/readme.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dead Trollz.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Luh Tyler - I Got A Dollar [Official Video].mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Testify.mp3" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/playermusic.py" beforeDir="false" afterPath="$PROJECT_DIR$/playermusic.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -35,15 +28,15 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "/home/simon/playerMusic",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/simon/playerMusic&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
@@ -109,6 +102,11 @@
           <url>file://$PROJECT_DIR$/playermusic.py</url>
           <line>1</line>
           <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/playermusic.py</url>
+          <line>3</line>
+          <option name="timeStamp" value="8" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

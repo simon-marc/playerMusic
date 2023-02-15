@@ -2,7 +2,6 @@ from tkinter import *
 import pygame
 import os
 import threading
-import random
 import time
 from mutagen.mp3 import MP3
 from tkinter.filedialog import askdirectory
@@ -46,10 +45,6 @@ class Player:
         NEXT = ">>"
         STOP = "■"
         UNPAUSE = "||"
-        mute = "Mute"
-        unmute = "unmute"
-        vol_mute = 0.0
-        vol_unmute = 1
 
         #Fonction pour ajouter une track
         def add_song():
@@ -111,12 +106,12 @@ class Player:
         def repeat_song():
             try:
                 index = 0
-                self.play_list.select_clear(0, END)
-                self.play_list.selection_set(index, last=None)
-                self.play_list.see(index)
-                self.play_list.activate(index)
-                self.play_list.selection_anchor(index)
-                track = self.play_list.get(index)
+                self.play_list.select_clear(ACTIVE, END)
+                self.play_list.selection_set(ACTIVE, last=None)
+                self.play_list.see(ACTIVE)
+                self.play_list.activate(ACTIVE)
+                self.play_list.selection_anchor(ACTIVE)
+                track = self.play_list.get(ACTIVE)
                 pygame.mixer.music.load(track)
                 self.var.set(track)
                 pygame.mixer.music.play()
@@ -187,8 +182,10 @@ class Player:
 
         ################################################################################################################################################
 
+        #Binding des flèches du clavier pour changer de musique.
         self.master.bind("<Left>", lambda x:prev())
         self.master.bind("<Right>", lambda x:next())
+        self.master.bind("<space>", lambda x:pause_unpause())
 
         self.var = StringVar()
         self.var.set("########################################################################################################################""")
@@ -216,7 +213,7 @@ class Player:
         self.pause = Button(self.master, text=PAUSE, width=5, bd=5, bg="black", fg="white", font="helvetica, 8", command=pause_unpause)
         self.pause.place(x=70, y=415)
 
-        self.repeat_button = Button(self.master, text="Rep", width=5, bd=5, bg="black", fg="white", font="helvetica, 8", command=repeat)
+        self.repeat_button = Button(self.master, text="Repeat   ", width=5, bd=5, bg="black", fg="white", font="helvetica, 8", command=repeat)
         self.repeat_button.place(x=400, y=415)
 
         self.load_music = Button(self.master, text="Click here to load your track", width=47, bd=5, bg="black", fg="white", font="helvetica, 8", command=add_song_playlist)
